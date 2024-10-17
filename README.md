@@ -10,7 +10,7 @@ This project implements a KTP management system using **Laravel 11**. The system
 Clone the project from the GitHub repository:
 
 ```bash
-git clone https://github.com/username/repo-ktp.git
+git clone https://github.com/raihanmaulana/crud-ktp.git
 cd repo-ktp
 ```
 
@@ -163,4 +163,4 @@ composer dump-autoload
 
 ## 10. License
 
-This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
+This project is open-source and available under the [Raihan Maulana](https://github.com/raihanmaulana).

@@ -17,3 +17,8 @@ Route::get('ktps/{id}', [KTPController::class, 'show']);
 Route::put('ktps/{id}', [KTPController::class, 'update']);
 Route::patch('ktps/{id}', [KTPController::class, 'update']);
 Route::delete('ktps/{id}', [KTPController::class, 'destroy']);
+
+Route::get('ktps/export/csv', [KtpController::class, 'exportCsv']);
+Route::get('ktps/export/pdf', [KtpController::class, 'exportPdf']);
+Route::post('ktps/import', [KtpController::class, 'importCsv']);
+

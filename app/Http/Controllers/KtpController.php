@@ -22,22 +22,32 @@ class KTPController extends Controller
             'alamat' => 'required',
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required|date',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validasi foto
         ]);
 
-        // Generate Unique 16-Digit NIK
+        // Handle Upload Foto
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $foto = $request->file('foto');
+            $fotoPath = $foto->store('foto_ktp', 'public'); // Simpan ke storage public/foto_ktp
+        }
+
+        // Generate Unique NIK
         $nik = $this->generateUniqueNik();
 
-        // Simpan data KTP
+        // Simpan Data KTP
         $ktp = Ktp::create([
             'nama' => $request->nama,
             'nik' => $nik,
             'alamat' => $request->alamat,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
+            'foto' => $fotoPath, // Simpan path foto
         ]);
 
         return response()->json($ktp, 201);
     }
+
 
     // GET: Get Specific KTP by ID
     public function show($id)

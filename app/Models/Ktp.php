@@ -16,6 +16,7 @@ class Ktp extends Model
         'alamat',
         'tempat_lahir',
         'tanggal_lahir',
+        'foto',
     ];
 
     // Tentukan nama tabel (opsional jika tabel sesuai konvensi)

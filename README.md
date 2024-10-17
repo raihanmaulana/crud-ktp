@@ -1,66 +1,166 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Laravel 11 API KTP Project
 
-## About Laravel
+This project implements a KTP management system using **Laravel 11**. The system includes CRUD operations and supports data import from CSV as well as data export to CSV and PDF.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 1. Clone the Repository
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Clone the project from the GitHub repository:
 
-## Learning Laravel
+```bash
+git clone https://github.com/username/repo-ktp.git
+cd repo-ktp
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 2. Install Dependencies
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Install the PHP dependencies with Composer:
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+If you use frontend tools, install the necessary packages using npm:
 
-### Premium Partners
+```bash
+npm install
+npm run dev
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 3. Configure the Environment
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3.1. Create the `.env` File
 
-## Code of Conduct
+Copy the `.env.example` file to `.env`:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+cp .env.example .env
+```
 
-## Security Vulnerabilities
+### 3.2. Configure the Database
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Open the `.env` file and update the following fields with your database configuration:
 
-## License
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ktp_db
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Create a new MySQL database:
+
+```sql
+CREATE DATABASE ktp_db;
+```
+
+---
+
+## 4. Run Migrations
+
+Run the following command to set up the database tables:
+
+```bash
+php artisan migrate
+```
+
+---
+
+## 5. Generate 10,000 Dummy Data Records
+
+Generate 10,000 KTP data records using the factory and seeder:
+
+```bash
+php artisan db:seed --class=KtpSeeder
+```
+
+---
+
+## 6. Run the Laravel Server
+
+Start the Laravel development server:
+
+```bash
+php artisan serve
+```
+
+The API will be available at:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## 7. API Endpoints
+
+Below are the available API endpoints:
+
+- **Get all KTPs:**  
+  `GET /api/ktps`
+
+- **Get a specific KTP by ID:**  
+  `GET /api/ktps/{id}`
+
+- **Create a new KTP:**  
+  `POST /api/ktps`  
+  **Request Body (JSON):**
+  ```json
+  {
+    "nama": "Raihan Maulana",
+    "nik": "0386456849517521",
+    "alamat": "Jalan Mawar No. 10",
+    "tempat_lahir": "Surakarta",
+    "tanggal_lahir": "2002-10-06"
+  }
+  ```
+
+- **Update a KTP by ID:**  
+  `PUT /api/ktps/{id}`
+
+- **Delete a KTP by ID:**  
+  `DELETE /api/ktps/{id}`
+
+- **Import data from CSV:**  
+  `POST /api/ktps/import`  
+  **Form Data:**  
+  - `file`: Upload a CSV file containing KTP data.
+
+- **Export data to CSV:**  
+  `GET /api/ktps/export/csv`
+
+- **Export data to PDF:**  
+  `GET /api/ktps/export/pdf`
+
+---
+
+## 8. Testing the API
+
+Use tools like **Postman** or **Insomnia** to test the API endpoints.
+
+---
+
+## 9. Troubleshooting
+
+If you encounter issues with caching, run the following commands:
+
+```bash
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+composer dump-autoload
+```
+
+---
+
+## 10. License
+
+This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).

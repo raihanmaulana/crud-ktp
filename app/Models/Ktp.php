@@ -21,4 +21,10 @@ class Ktp extends Model
 
     // Tentukan nama tabel (opsional jika tabel sesuai konvensi)
     protected $table = 'ktps';
+
+    public function linkCollection()
+    {
+        return $this->appends(request()->except('page'))->links()->toHtml();
+    }
+
 }

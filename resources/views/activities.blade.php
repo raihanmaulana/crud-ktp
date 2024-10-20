@@ -41,11 +41,6 @@
                 <div class="mt-4">
                     {{ $activities->links('vendor.pagination.tailwind') }}
                 </div>
-
-                <a href="{{ route('admin.activities.export') }}"
-                    class="mt-4 inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
-                    Export Data
-                </a>
             </div>
         </div>
     </div>

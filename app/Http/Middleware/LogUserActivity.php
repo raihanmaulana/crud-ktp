@@ -19,7 +19,7 @@ class LogUserActivity
     {
         // Cek jika pengguna login dan role-nya adalah 'user'
         if (Auth::check() && Auth::user()->role === 'user') {
-            UserActivity::create([
+            $data = UserActivity::create([
                 'user_id' => Auth::id(),
                 'activity' => $request->method() . ' ' . $request->path(),
                 'url' => $request->fullUrl(),

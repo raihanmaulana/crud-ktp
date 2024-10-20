@@ -6,7 +6,7 @@ use App\Models\Ktp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
+
 
 class KTPApiController extends Controller
 {
@@ -157,41 +157,7 @@ class KTPApiController extends Controller
         }
     }
 
-    public function exportCsv()
-    {
-        $ktps = Ktp::all();
-
-        $filename = "ktp_data.csv";
-        $handle = fopen($filename, 'w');
-        fputcsv($handle, ['ID', 'Nama', 'NIK', 'Alamat', 'Tempat Lahir', 'Tanggal Lahir', 'Created At', 'Updated At']);
-
-        foreach ($ktps as $ktp) {
-            fputcsv($handle, [
-                $ktp->id,
-                $ktp->nama,
-                $ktp->nik,
-                $ktp->alamat,
-                $ktp->tempat_lahir,
-                $ktp->tanggal_lahir,
-                $ktp->created_at,
-                $ktp->updated_at,
-            ]);
-        }
-
-        fclose($handle);
-
-        return response()->download($filename)->deleteFileAfterSend(true);
-    }
-
-
-    public function exportPdf()
-    {
-        $ktps = Ktp::cursor(); // Gunakan cursor untuk menghindari penggunaan memori berlebih
-
-        $pdf = PDF::loadView('ktp_pdf', compact('ktps'));
-
-        return $pdf->download('ktp_data.pdf');
-    }
+    
 
 
 

@@ -24,6 +24,9 @@ Route::middleware(['auth', 'log.activity'])->group(
         })->name('export');
 
         Route::get('ktp/{ktp}', [KTPWebController::class, 'show'])->name('ktp.show');
+
+        Route::get('export/pdf', [KTPWebController::class, 'exportPdf']);
+        Route::get('export/csv', [KTPWebController::class, 'exportCsv']);
     }
 );
 

@@ -61,8 +61,27 @@
 
             <div class="overflow-hidden overflow-x-auto p-6 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
                 <div class="min-w-full align-middle">
+                    <div class="flex justify-between items-center mb-6">
+                        <!-- <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2 tracking-wide">
+                            Daftar KTP
+                        </h2> -->
+
+                        @auth
+                        @if (auth()->user()->role === 'admin')
+                        <a href="{{ route('ktp.create') }}"
+                            class="inline-block border border-green-400 bg-green-400 text-white hover:bg-green-500 hover:border-green-500 px-4 py-2 rounded-md shadow-sm transition-colors duration-200">
+                            Tambah KTP
+                        </a>
+                        @endif
+                        @endauth
+
+                    </div>
+
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 border">
                         <thead>
+                            <script>
+                                const userRole = "{{ auth()->user()->role ?? 'guest' }}";
+                            </script>
                             <tr>
                                 <th class="px-6 py-3 bg-gray-50 dark:bg-gray-700 text-left">
                                     <span class="text-xs leading-4 font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Nama</span>
@@ -126,18 +145,29 @@
 
         function renderTable(ktps, currentPage) {
             const tbody = document.getElementById('ktp-body');
+            const userRole = "{{ auth()->user()->role ?? 'guest' }}";
             tbody.innerHTML = ''; // Bersihkan tabel sebelumnya
 
             ktps.forEach(ktp => {
+                let actionButtons = `
+                <a href="/ktp/${ktp.id}?page=${currentPage}" class="text-blue-500 hover:underline">Lihat</a>
+            `;
+
+                // Tampilkan tombol "Edit" dan "Hapus" hanya jika userRole adalah admin
+                if (userRole === 'admin') {
+                    actionButtons += `
+                <a href="/ktp/${ktp.id}/edit?page=${currentPage}" class="ml-4 text-green-500 hover:underline">Edit</a>
+                <button type="button" onclick="deleteKTP(${ktp.id})" class="ml-4 text-red-500 hover:underline">Hapus</button>
+            `;
+                }
+
                 const row = `
             <tr class="bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700">
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">${ktp.nama}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">${ktp.nik}</td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300">${ktp.alamat}</td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <a href="/ktp/${ktp.id}?page=${currentPage}" class="text-blue-500 hover:underline">Lihat</a>
-                    <a href="/ktp/${ktp.id}/edit?page=${currentPage}" class="ml-4 text-green-500 hover:underline">Edit</a>
-                    <button type="button" onclick="deleteKTP(${ktp.id})" class="ml-4 text-red-500 hover:underline">Hapus</button>
+               <td class="px-6 py-4 whitespace-nowrap">
+                    ${actionButtons}
                 </td>
             </tr>
         `;

@@ -4,10 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckRole
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +15,13 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next, $role)
     {
-        if (Auth::check() && Auth::user()->role === $role) {
-            return $next($request);
+        $user = $request->user();
+
+        // Jika user tidak ada atau role tidak sesuai
+        if (!$user || $user->role !== $role) {
+            return redirect()->route('no.access', ['role' => $user ? $user->role : 'guest']);
         }
 
-        return redirect('/'); // Redirect jika tidak memiliki akses
+        return $next($request);
     }
 }

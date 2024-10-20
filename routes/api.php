@@ -5,15 +5,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\KtpController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 
 
 
 Route::get('/ktp', [KTPApiController::class, 'index']);
-Route::post('ktps', [KTPApiController::class, 'store']);
+Route::post('/ktp', [KTPApiController::class, 'store'])->name('ktp.store');
 Route::get('ktps/{id}', [KTPApiController::class, 'show']);
 Route::put('/ktp/{id}', [KTPApiController::class, 'update'])->name('api.ktp.update');
 Route::patch('ktps/{id}', [KTPApiController::class, 'update']);

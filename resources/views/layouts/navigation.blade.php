@@ -3,7 +3,11 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <div class="hidden sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('ktp.index')" :active="request()->routeIs('ktp.index')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('ktp.index')" :active="request()->routeIs('ktp.index')" class="ml-6">
                         {{ __('Data KTP') }}
                     </x-nav-link>
 
@@ -12,9 +16,18 @@
                         {{ __('Export') }}
                     </x-nav-link>
 
+                    @auth
+                    @if (auth()->user()->role === 'admin')
                     <x-nav-link :href="route('import')" :active="request()->routeIs('import')" class="ml-6">
                         {{ __('Import') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('admin.activities')" :active="request()->routeIs('admin.activities')" class="ml-6">
+                        {{ __('User Activities') }}
+                    </x-nav-link>
+                    @endif
+                    @endauth
+
                 </div>
 
             </div>
